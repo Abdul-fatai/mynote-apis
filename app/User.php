@@ -3,10 +3,15 @@
 class User {
 	private $conn;
 	private $table = 'users';
+	private $table1 = 'notes';
+
 
 	public $username = '';
 	public $email = '';
 	public $password = '';
+
+	public $subject = '';
+	public $body = '';
 
 	//Contructors with DB
     public function __construct($db) {
@@ -33,13 +38,99 @@ class User {
 		$stmt->bindParam(':username', $this->username);
 		$stmt->bindParam(':email', $this->email);
 		$stmt->bindParam(':password', $this->password);
-    //Execute query
-    if($stmt->execute()){
-      return true;
-    } 
-    //Print error if something went wrong
-    printf("Error: %s.\n", $stmt->error);
-      return false; 
-  }
+	    //Execute query
+	    if($stmt->execute()){
+	      return true;
+	    } 
+	    //Print error if something went wrong
+	    printf("Error: %s.\n", $stmt->error);
+	      return false; 
+	}
+
+	public function note(){
+		$query = 'INSERT INTO '.
+		$this->table1 .'
+		SET
+		subject = :subject,
+		body = :body';
+
+		//prepare statement 
+		$stmt = $this->conn->prepare($query);
+
+		//Clean data
+		$this->subject = htmlspecialchars(strip_tags($this->subject));
+		$this->body = htmlspecialchars(strip_tags($this->body));
+
+		//Bind data
+		$stmt->bindParam(':subject', $this->subject);
+		$stmt->bindParam(':body', $this->body);
+
+		//Execute query 
+		if ($stmt->execute()) {
+			return true;
+		}
+
+		printf("Error: %s.\n", $stmt->error);
+		return false;
+	}
+
+	public function update(){
+		$query = 'UPDATE '.
+		$this->table1 .'
+		SET
+		subject = :subject,
+		body = :body
+		WHERE 
+		id = :id';
+
+
+		//Prepare statement 
+		$stmt = $this->conn->prepare($query);
+
+		//Clean data 
+		$this->subject = htmlspecialchars(strip_tags($this->subject));
+		$this->body = htmlspecialchars(strip_tags($this->body));
+		$this->id = htmlspecialchars(strip_tags($this->id));
+
+		//Bind data 
+		$stmt->bindParam(':subject', $this->subject);
+		$stmt->bindParam(':body', $this->body);
+		$stmt->bindParam(':id', $this->id);
+
+		//Execute query
+		if ($stmt->execute()) {
+			return true;
+		}
+		printf("Error: %s.\n", $stmt->error);
+		return false;
+	}
+
+
+	public function delete(){
+		$query = 'DELETE FROM '.
+		$this->table1 .'
+		WHERE 
+		id = :id';
+
+		//Prepare statement 
+		$stmt = $this->conn->prepare($query);
+
+		//Clean data
+		$this->id = htmlspecialchars(strip_tags($this->id));
+
+		// bind data
+
+		$stmt->bindParam(':id', $this->id);
+
+		//Execute query
+
+		if ($stmt->execute()) {
+			return true;
+		}
+
+		printf("Error: %s.\n", $stmt->error);
+		return false;
 
 	}
+
+}

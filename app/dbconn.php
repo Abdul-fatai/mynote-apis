@@ -1,5 +1,11 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: appliaction/json');
 date_default_timezone_set("Africa/Lagos");
+
+
+
+
  class Dbh {
 
  	private $servername;
