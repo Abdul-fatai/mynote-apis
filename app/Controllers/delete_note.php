@@ -4,14 +4,14 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: appliaction/json');
 
 include '../dbconn.php';
-include '../User.php';
+include '../Note.php';
 
 // Instantiate database
 $database = new Dbh;
 $db = $database->connect();
 
-// notes model
-$user = new User($db);
+
+$note = new Note($db);
 
 foreach ($_REQUEST as $key => $value) {
 	$$key = $value;
@@ -26,12 +26,12 @@ if (empty($_REQUEST)) {
 	return false;
 }
 
-// notes model
-$user->id = $id;
+
+$note->id = $id;
 
 try{
-	// notes model
-	$user->delete();
+	
+	$note->delete();
 	echo json_encode(
 		array('message' => 'note delete successfully')
 	);
@@ -41,6 +41,7 @@ try{
 	$str = "\n \n \n [".date('Y-m-d h:i a')."] \n";
 	fwrite($handle, $str);
 	fwrite($handle, $e);
+	http_response_code(400);
 	echo json_encode(
 		array('message' => 'something went wrong')
 	);

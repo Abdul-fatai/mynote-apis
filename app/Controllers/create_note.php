@@ -4,14 +4,14 @@
 
 
 	include '../dbconn.php';
-	include '../User.php';
+	include '../Note.php';
 
 	//Instantiate DB connect 
 	$database = new Dbh;
 	$db = $database->connect();
 
 	// use your note model 
-	$user = new User($db);
+	$note = new Note($db);
 
 	foreach ($_REQUEST as $key => $value) {
 		$$key = $value;
@@ -25,13 +25,13 @@
 	    return false;
 	}
 
-	// notes model
-	$user->subject = $subject;
-	$user->body = $body;
+	
+	$note->subject = $subject;
+	$note->body = $body;
 
 	try{
 		// notes model
-		$user->note();
+		$note->note();
 		echo json_encode(
 			array('message' => 'Note created succesfully')
 		);
