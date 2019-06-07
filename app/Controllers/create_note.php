@@ -10,6 +10,7 @@
 	$database = new Dbh;
 	$db = $database->connect();
 
+	// use your note model 
 	$user = new User($db);
 
 	foreach ($_REQUEST as $key => $value) {
@@ -17,17 +18,19 @@
 	}
 
 	if(empty($_REQUEST)) {
-		http_response_code(450);
+		http_response_code(400);
 		echo json_encode(
 	        array('message' => 'Invalid input')
 	    );
 	    return false;
 	}
 
+	// notes model
 	$user->subject = $subject;
 	$user->body = $body;
 
 	try{
+		// notes model
 		$user->note();
 		echo json_encode(
 			array('message' => 'Note created succesfully')

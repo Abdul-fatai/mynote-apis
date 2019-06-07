@@ -6,10 +6,11 @@ header('Content-Type: appliaction/json');
 include '../dbconn.php';
 include '../User.php';
 
-//Instantiate database
+// Instantiate database
 $database = new Dbh;
 $db = $database->connect();
 
+// notes model
 $user = new User($db);
 
 foreach ($_REQUEST as $key => $value) {
@@ -18,16 +19,18 @@ foreach ($_REQUEST as $key => $value) {
 
 
 if (empty($_REQUEST)) {
+	http_response_code(400);
 	echo json_encode(
 		array('message' => 'invalid input')
 	);
 	return false;
 }
 
-//post id
+// notes model
 $user->id = $id;
 
 try{
+	// notes model
 	$user->delete();
 	echo json_encode(
 		array('message' => 'note delete successfully')

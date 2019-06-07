@@ -3,6 +3,8 @@
 class User {
 	private $conn;
 	private $table = 'users';
+
+	// remove this thing
 	private $table1 = 'notes';
 
 
@@ -10,6 +12,7 @@ class User {
 	public $email = '';
 	public $password = '';
 
+	//remove this shit
 	public $subject = '';
 	public $body = '';
 
@@ -47,6 +50,7 @@ class User {
 	      return false; 
 	}
 
+	// move this shit to the notes model
 	public function note(){
 		$query = 'INSERT INTO '.
 		$this->table1 .'
@@ -74,6 +78,7 @@ class User {
 		return false;
 	}
 
+	// move this to notes model
 	public function update(){
 		$query = 'UPDATE '.
 		$this->table1 .'
@@ -106,6 +111,7 @@ class User {
 	}
 
 
+	// move this too
 	public function delete(){
 		$query = 'DELETE FROM '.
 		$this->table1 .'

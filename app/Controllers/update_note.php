@@ -10,6 +10,7 @@ include '../User.php';
 $database = new Dbh;
 $db = $database->connect();
 
+// notes model
 $user = new User($db);
 
 foreach ($_REQUEST as $key => $value) {
@@ -18,7 +19,7 @@ foreach ($_REQUEST as $key => $value) {
 }
 
 if (empty($_REQUEST)) {
-	http_response(500);
+	http_response_code(400);
 	echo json_encode(
 		array('message' => 'empty input')
 	);
@@ -26,13 +27,15 @@ if (empty($_REQUEST)) {
 	return false;
 }
 
+// notes model
 $user->subject = $subject;
 $user->body = $body;
 
-//post id
+// notes model
 $user->id = $id;
 
 try {
+	// notes model
 	$user->update();
 	echo json_encode(
 		array('message' => 'note upadate succesfully')
@@ -43,6 +46,8 @@ try {
 		$str = "\n \n \n[". date('Y-m-d h:i a') ."] \n";
 		fwrite($handle, $str);
 		fwrite($handle, $e);
+
+		// add error status code
 		echo json_encode(
 			array('error' => 'something went wrong')
 		);
