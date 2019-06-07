@@ -111,7 +111,7 @@ class User {
 	}
 
 
-	// move this too
+	// move this too, ok
 	public function delete(){
 		$query = 'DELETE FROM '.
 		$this->table1 .'
