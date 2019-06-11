@@ -15,6 +15,7 @@ class User {
     }
 
 	public function create() {
+
 		$query = 'INSERT INTO '. 
 		$this->table .' 
 		SET 
@@ -34,6 +35,8 @@ class User {
 		$stmt->bindParam(':username', $this->username);
 		$stmt->bindParam(':email', $this->email);
 		$stmt->bindParam(':password', $this->password);
+
+
 	    //Execute query
 	    if($stmt->execute()){
 	      return true;
@@ -43,6 +46,30 @@ class User {
 	      return false; 
 	}
 
-	
+	public function login() {
+
+		$query = 'SELECT * FROM '. 
+		$this->table .' 
+		WHERE
+		username = :username
+		OR
+		email = :email
+		LIMIT 1';
+
+		//prepare statement
+		$stmt = $this->conn->prepare($query);
+
+		//Clean data
+		$this->username = htmlspecialchars(strip_tags($this->username));
+		$this->email = htmlspecialchars(strip_tags($this->email));
+
+		//Bind data
+		$stmt->bindParam(':username', $this->username);
+		$stmt->bindParam(':email', $this->email);
+
+
+	    //Execute query
+	    $stmt->execute();
+	}
 
 }

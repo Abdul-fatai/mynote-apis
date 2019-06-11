@@ -3,7 +3,7 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: appliaction/json');
 
-include '../dbconn.php';
+include '../config/dbconn.php';
 include '../Note.php';
 
 // Instantiate database
